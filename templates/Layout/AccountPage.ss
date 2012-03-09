@@ -1,3 +1,5 @@
+
+<div class="account-page">
 <h2>$Title</h2>
 
 <p>
@@ -41,3 +43,4 @@ $Content
     </tbody>
   </table>
 <% end_if %>
+</div>
