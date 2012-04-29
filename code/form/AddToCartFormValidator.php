@@ -65,7 +65,7 @@ class AddToCartFormValidator extends RequiredFields {
 	  }
 	  if ($stockLevel == 0) {
 	    $this->form->sessionMessage(
-  		  _t('Form.STOCK_LEVEL', ''), //"Sorry, this product is out of stock." - similar message will already be displayed on product page
+  		  _t('Form.STOCK_LEVEL', 'Sorry, this product is out of stock'), //"Sorry, this product is out of stock." - similar message will already be displayed on product page
   		  'bad'
   		);
   		

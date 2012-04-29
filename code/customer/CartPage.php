@@ -145,8 +145,8 @@ class CartPage_Controller extends Page_Controller {
 	  }
 	  
     $actions = new FieldSet(
-      new FormAction('updateCart', 'Update Cart'),
-      new FormAction('goToCheckout', 'Go To Checkout')
+      new FormAction('updateCart', _t('CartPage.UPDATECART',"Update Cart")),
+      new FormAction('goToCheckout', _t('CartPage.GOTOCHECKOUT',"Go To Checkout"))
     );
     
     $cartForm = new CartForm($this, 'CartForm', $fields, $actions, $validator, $currentOrder);

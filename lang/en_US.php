@@ -2,11 +2,6 @@
 
 global $lang;
 
-$lang['en_US']['ShopAdmin']['MENUTITLE'] = array(
-	'Shop',
-	100,
-	'Menu title'
-);
 $lang['en_US']['AccountPage']['PLURALNAME'] = array(
 	'Account Pags',
 	50,
@@ -191,6 +186,8 @@ $lang['en_US']['Order']['SINGULARNAME'] = array(
 	50,
 	'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['en_US']['Paginate']['NEXT'] = 'Next';
+$lang['en_US']['Paginate']['PREVIOUS'] = 'Previous';
 $lang['en_US']['Product']['PLURALNAME'] = array(
 	'Products',
 	50,

@@ -6,16 +6,15 @@
 	</head>
 	<body>
 	
-	  <h3>Hi $Customer.Name,</h3>
+	  <h3><% _t('Order_ReceiptEmail.HI','Hi') %>$Customer.Name,</h3>
     $Message
-	
 	  <% control Order %>
       <div class="order sws">
         <table class="table table-bordered">
           <tr>
             <th>
-              Order #$ID - $Status<br />
-              <a href="$Link" id="OrderLink">View this order</a>
+              <% _t('Order_ReceiptEmail.ORDER','Order') %> #$ID - $Status<br />
+              <a href="$Link" id="OrderLink"><% _t('Order_ReceiptEmail.VIEWTHISORDER','View this order') %></a>
             </th>
           </tr>
           <tr>
@@ -41,7 +40,7 @@
     <% end_control %>
     
     <p>
-      Please note that orders will not be shipped until payment has been successfully processed.
+      <% _t('Order_ReceiptEmail.PAYMENTNOTICE','Please note that orders will not be shipped until payment has been successfully processed.') %>
     </p>
     
     $Signature

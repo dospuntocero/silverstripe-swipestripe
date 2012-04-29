@@ -58,7 +58,7 @@ class CheckoutTest extends FunctionalTest {
     ));
     
     //Enable shipping countries
-    Address::$shipping_countries = array('NZ' => 'New Zealand', 'AU' => 'Australia');
+    Shipping::set_supported_countries(array('NZ', 'AU'));
 	}
 	
 	/**

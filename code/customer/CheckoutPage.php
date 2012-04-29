@@ -157,7 +157,7 @@ class CheckoutPage_Controller extends Page_Controller {
     $this->addPaymentFields($fields, $validator, $order);
 
     $actions = new FieldSet(
-      new FormAction('ProcessOrder', 'Proceed to pay')
+      new FormAction('ProcessOrder', _t('CheckoutPage.PROCEEDTOPAY',"Proceed to pay"))
     );
 
     $form = new CheckoutForm($this, 'OrderForm', $fields, $actions, $validator, $order);
@@ -169,9 +169,6 @@ class CheckoutPage_Controller extends Page_Controller {
     if ($member->ID) $form->loadDataFrom($member);
     if ($billingAddress) $form->loadDataFrom($billingAddress->getCheckoutFormData('Billing')); 
     if ($shippingAddress) $form->loadDataFrom($shippingAddress->getCheckoutFormData('Shipping')); 
-    
-    //Hook for editing the checkout page order form
-		$this->extend('updateOrderForm', $form);
 
     return $form;
 	}
@@ -184,32 +181,32 @@ class CheckoutPage_Controller extends Page_Controller {
 	 */
 	private function addBillingAddressFields(&$fields, &$validator) {
 	  
-	  $firstNameField = new TextField('Billing[FirstName]', 'First Name');
-	  $firstNameField->setCustomValidationMessage('Please enter your first name.');
+	  $firstNameField = new TextField('Billing[FirstName]', _t('CheckoutPage.FIRSTNAME',"First Name"));
+	  $firstNameField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURFIRSTNAME',"Please enter your first name."));
 	  
-	  $surnameField = new TextField('Billing[Surname]', 'Surname');
-	  $surnameField->setCustomValidationMessage('Please enter your surname.');
+	  $surnameField = new TextField('Billing[Surname]', _t('CheckoutPage.SURNAME',"Surname"));
+	  $surnameField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURSURNAME',"Please enter your surname."));
 	  
-	  $addressField = new TextField('Billing[Address]', 'Address 1');
-	  $addressField->setCustomValidationMessage('Please enter your address.');
+	  $addressField = new TextField('Billing[Address]', _t('CheckoutPage.ADDRESS1',"Address 1"));
+	  $addressField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURADDRESS',"Please enter your address."));
 	  
-	  $cityField = new TextField('Billing[City]', 'City');
-	  $cityField->setCustomValidationMessage('Please enter your city.');
+	  $cityField = new TextField('Billing[City]', _t('CheckoutPage.CITY',"City"));
+	  $cityField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCITY',"Please enter your city"));
 	  
-	  $countryField = new DropdownField('Billing[Country]', 'Country', Address::$billing_countries);
-	  $countryField->setCustomValidationMessage('Please enter your country.');
+	  $countryField = new DropdownField('Billing[Country]', _t('CheckoutPage.COUNTRY',"Country"), Geoip::getCountryDropDown());
+	  $countryField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCOUNTRY',"Please enter your country."));
     if (!Member::currentUserID() && Geoip::$default_country_code) $countryField->setValue(Geoip::$default_country_code);
 	  
 	  $billingAddressFields = new CompositeField(
-	    new HeaderField('Billing Address', 3),
+	    new HeaderField(_t('CheckoutPage.BILLINGADDRESS',"Billing Address"), 3),
 			$firstNameField,
 			$surnameField,
-			new TextField('Billing[Company]', 'Company'),
+			new TextField('Billing[Company]', _t('CheckoutPage.COMPANY',"Company")),
 			$addressField,
-			new TextField('Billing[AddressLine2]', 'Address 2'),
+			new TextField('Billing[AddressLine2]', _t('CheckoutPage.ADDRESS2',"Address 2")),
 			$cityField,
-			new TextField('Billing[PostalCode]', 'Postal Code'),
-			new TextField('Billing[State]', 'State'),
+			new TextField('Billing[PostalCode]', _t('CheckoutPage.POSTALCODE',"Postal Code")),
+			new TextField('Billing[State]', _t('CheckoutPage.STATE',"State")),
 			$countryField
 	  );
 
@@ -231,44 +228,44 @@ class CheckoutPage_Controller extends Page_Controller {
 	 */
 	private function addShippingAddressFields(&$fields, &$validator) {
 	  
-	  $firstNameField = new TextField('Shipping[FirstName]', 'First Name');
+	  $firstNameField = new TextField('Shipping[FirstName]', _t('CheckoutPage.FIRSTNAME',"First Name"));
 	  $firstNameField->addExtraClass('shipping-firstname');
-	  $firstNameField->setCustomValidationMessage('Please enter a first name.');
+	  $firstNameField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERAFIRSTNAME',"Please enter a first name."));
 	  
-	  $surnameField = new TextField('Shipping[Surname]', 'Surname');
-	  $surnameField->setCustomValidationMessage('Please enter a surname.');
+	  $surnameField = new TextField('Shipping[Surname]', _t('CheckoutPage.SURNAME',"Surname"));
+	  $surnameField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERASURNAME',"Please enter a surname."));
 	  
-	  $addressField = new TextField('Shipping[Address]', 'Address 1');
-	  $addressField->setCustomValidationMessage('Please enter an address.');
+	  $addressField = new TextField('Shipping[Address]', '_t('CheckoutPage.ADDRESS1',"Address 1")');
+	  $addressField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERANADDRESS',"Please enter an address."));
 	  
-	  $cityField = new TextField('Shipping[City]', 'City');
-	  $cityField->setCustomValidationMessage('Please enter a city.');
+	  $cityField = new TextField('Shipping[City]', _t('CheckoutPage.CITY',"City"));
+	  $cityField->setCustomValidationMessage('_t('CheckoutPage.PLEASEENTERACITY',"Please enter a city.")');
 	  
-	  $countryField = new DropdownField('Shipping[Country]', 'Country', Address::$shipping_countries);
-	  $countryField->setCustomValidationMessage('Please enter a country.');
-    if (!Member::currentUserID() && Geoip::$default_country_code) $countryField->setValue(Geoip::$default_country_code); 
+	  $countryField = new DropdownField('Shipping[Country]', _t('CheckoutPage.COUNTRY',"Country"), Shipping::supported_countries());
+	  $countryField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERACOUNTRY',"Please enter a country."));
+    if (!Member::currentUserID() && Geoip::$default_country_code) $countryField->setValue(Geoip::$default_country_code); //Should probably do a default country in Shipping
 
-    $regions = Address::$shipping_regions;
+    $regions = Shipping::supported_regions();
     $regionField = null;
     if (!empty($regions)) {
-      $regionField = new RegionField('Shipping[Region]', 'Region');
+      $regionField = new RegionField('Shipping[Region]', _t('CheckoutPage.Region',"Region"));
       $regionField->setCustomValidationMessage('Please enter a region.');
     }
     
-    $sameAddressField = new CheckboxField('ShipToBillingAddress', 'to same address?');
+    $sameAddressField = new CheckboxField('ShipToBillingAddress', _t('CheckoutPage.sameaddress',"to same address?"));
     $sameAddressField->addExtraClass('shipping-same-address');
     
 	  $shippingAddressFields = new CompositeField(
-	    new HeaderField('Shipping Address', 3),
+	    new HeaderField(_t('CheckoutPage.Shipping Address',"Shipping Address"), 3),
 	    $sameAddressField,
 			$firstNameField,
 			$surnameField,
-			new TextField('Shipping[Company]', 'Company'),
+			new TextField('Shipping[Company]', _t('CheckoutPage.COMPANY',"Company")),
 			$addressField,
-			new TextField('Shipping[AddressLine2]', 'Address 2'),
+			new TextField('Shipping[AddressLine2]', _t('CheckoutPage.ADDRESS2',"Address 2")),
 			$cityField,
-			new TextField('Shipping[PostalCode]', 'Postal Code'),
-			new TextField('Shipping[State]', 'State'),
+			new TextField('Shipping[PostalCode]', _t('CheckoutPage.POSTALCODE',"Postal Code")),
+			new TextField('Shipping[State]', _t('CheckoutPage.STATE',"State")),
 			$countryField
 	  );
 	  
@@ -294,36 +291,33 @@ class CheckoutPage_Controller extends Page_Controller {
 	private function addPersonalDetailsFields(&$fields, &$validator, $member) {
 	  
 	  $emailField = new EmailField('Email', 'Email');
-	  $emailField->setCustomValidationMessage('Please enter your email address.');
-	  $validator->addRequiredField('Email');
+	  $emailField->setCustomValidationMessage(_t('CheckoutPage. Please enter your email address.',"Please enter your email address."));
+	  $validator->addRequiredField(_t('CheckoutPage.Email',"Email"));
 	  
 	  $personalFields = new CompositeField(
-	    new HeaderField('Personal Details', 3),
+	    new HeaderField(_t('CheckoutPage.PERSONALDETAILS',"Personal Details"), 3),
 	    new CompositeField(
   			$emailField,
-  			new TextField('HomePhone', 'Phone')
+  			new TextField('HomePhone', _t('CheckoutPage.Phone',"Phone"))
 	    )
     );
     
 	  if(!$member->ID || $member->Password == '') {
 	    
 	    $link = $this->Link();
-	    $lit = <<<EOS
-<p class="alert alert-info">
-	<strong class="alert-heading">NOTE:</strong>
-	Please choose a password, so you can login and check your order history in the future. <br /><br />
-	If you are already a member please <a href="Security/login?BackURL=$link">log in</a>.
-</p>
-EOS;
 	    
 	    $personalFields->push(
 	      new CompositeField(
   	      new FieldGroup(
-  	        new ConfirmedPasswordField('Password', 'Password')
+  	        new ConfirmedPasswordField('Password', _t('CheckoutPage.PASSWORD',"Password"))
   	      ),
     			new LiteralField(
     				'AccountInfo', 
-    				$lit
+						_t('CheckoutPage.PASSWORDNOTE','<p class="alert alert-info">
+							<strong class="alert-heading">NOTE:</strong>
+							Please choose a password, so you can login and check your order history in the future. <br /><br />
+							If you are already a member please <a href="Security/login?BackURL=$link">log in</a>.
+						</p>')
     			)
 	    ));
 			$validator->addRequiredField('Password');
@@ -376,7 +370,7 @@ EOS;
 	 * @param OrderFormValidator $validator Checkout form validator
 	 */
 	private function addNotesField(&$fields, &$validator) {
-	  $fields['Notes'][] = new TextareaField('Notes', 'Notes about this order', 5, 20, '');
+	  $fields['Notes'][] = new TextareaField('Notes', _t('CheckoutPage.NOTESABOUTTHISORDER',"Notes about this order"), 5, 20, '');
 	}
 	
 	/**
@@ -393,7 +387,7 @@ EOS;
 
 		  //Bit of a nasty hack to customize validation error message
 		  if ($field->Name() == 'PaymentMethod') {
-		    $field->setCustomValidationMessage('Please select a payment method.');
+		    $field->setCustomValidationMessage(_t('CheckoutPage.SELECTPAYMENTMETHOD',"Please select a payment method."));
 		  }
 
 		  $paymentFields->push($field);
@@ -426,8 +420,8 @@ EOS;
 		if(!($payment && $payment instanceof Payment)) {
 		  Debug::friendlyError(
 		    403,
-		    'Sorry, that is not a valid payment method.',
-		    'Please go back and try again.'
+		    _t('CheckoutPage.NOTAVALIDPAYMENTMETHOD',"Sorry, that is not a valid payment method."),
+		    _t('CheckoutPage.GOBACKTRYAGAIN',"Please go back and try again.")
 		  );
 			return;
 		}
@@ -472,7 +466,7 @@ EOS;
 		  }
 		  else {
 		    $form->sessionMessage(
-  				'Sorry, a member already exists with that email address. If this is your email address, please log in first before placing your order.',
+  				_t('CheckoutPage.MEMBERALREADYEXISTS',"Sorry, a member already exists with that email address. If this is your email address, please log in first before placing your order."),
   				'bad'
   			);
   			Director::redirectBack();
@@ -591,7 +585,7 @@ EOS;
       $order->addModifiersAtCheckout($newModifierData);
   
       $actions = new FieldSet(
-        new FormAction('ProcessOrder', 'Proceed to pay')
+        new FormAction('ProcessOrder', _t('CheckoutPage.PROCEEDTOPAY',"Proceed to pay"))
       );
       $form = new CheckoutForm($this, 'OrderForm', $fields, $actions, $validator, $order);
       $form->disableSecurityToken();

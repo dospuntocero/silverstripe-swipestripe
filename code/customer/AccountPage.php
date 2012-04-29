@@ -135,7 +135,7 @@ class AccountPage_Controller extends Page_Controller {
     
     $memberID = Member::currentUserID();
     if (!$memberID) {
-      return Security::permissionFailure($this, 'You must be logged in to view this page.');
+      return Security::permissionFailure($this, _t('AccountPage.YOUMUSTBELOGGED',"You must be logged in to view this page."));
     }
 
     //Get the orders for this member
@@ -160,7 +160,7 @@ class AccountPage_Controller extends Page_Controller {
 
 		$memberID = Member::currentUserID();
 	  if (!Member::currentUserID()) {
-      return Security::permissionFailure($this, 'You must be logged in to view this page.');
+      return Security::permissionFailure($this, _t('AccountPage.YOUMUSTBELOGGED',"You must be logged in to view this page."));
     }
 
 		if ($orderID = $request->param('ID')) {
@@ -168,11 +168,11 @@ class AccountPage_Controller extends Page_Controller {
 		  $order = DataObject::get_one('Order', "\"Order\".\"ID\" = $orderID");
 		  $member = Customer::currentUser();
   		if (!$member || !$member->ID) {
-        return Security::permissionFailure($this, 'You must be logged in to view this page.');
+        return Security::permissionFailure($this, _t('AccountPage.YOUMUSTBELOGGED',"You must be logged in to view this page."));
       }
       
       if ($member && $member != $order->Member()) {
-        return Security::permissionFailure($this, 'You cannot view orders that do not belong to you.');
+        return Security::permissionFailure($this, _t('AccountPage.YOUCANNOTVIEWORDERS',"You cannot view orders that do not belong to you."));
       }
       
       if ($order && $order->exists()) {
@@ -190,7 +190,7 @@ class AccountPage_Controller extends Page_Controller {
 		
 		return array(
 			'Order' => false,
-			'Message' => 'You do not have any order corresponding to this ID.'
+			'Message' => _t('AccountPage.NOORDERTOTHISID',"You do not have any order corresponding to this ID.")
 		);
 	}
 	
