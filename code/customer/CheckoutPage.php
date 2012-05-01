@@ -235,11 +235,11 @@ class CheckoutPage_Controller extends Page_Controller {
 	  $surnameField = new TextField('Shipping[Surname]', _t('CheckoutPage.SURNAME',"Surname"));
 	  $surnameField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERASURNAME',"Please enter a surname."));
 	  
-	  $addressField = new TextField('Shipping[Address]', '_t('CheckoutPage.ADDRESS1',"Address 1")');
+	  $addressField = new TextField('Shipping[Address]', _t('CheckoutPage.ADDRESS1',"Address 1"));
 	  $addressField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERANADDRESS',"Please enter an address."));
 	  
 	  $cityField = new TextField('Shipping[City]', _t('CheckoutPage.CITY',"City"));
-	  $cityField->setCustomValidationMessage('_t('CheckoutPage.PLEASEENTERACITY',"Please enter a city.")');
+	  $cityField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERACITY',"Please enter a city."));
 	  
 	  $countryField = new DropdownField('Shipping[Country]', _t('CheckoutPage.COUNTRY',"Country"), Shipping::supported_countries());
 	  $countryField->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERACOUNTRY',"Please enter a country."));

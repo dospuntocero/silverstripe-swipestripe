@@ -128,7 +128,7 @@ class ShopAdmin extends ModelAdmin {
 	 * @return String Either 'dropdown' or 'tabs'
 	 */
 	public function SearchClassSelector() {
-		return "tabs";
+		return "dropdown";
 	}
 	
 	/**

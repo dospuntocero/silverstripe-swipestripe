@@ -11,6 +11,10 @@
  */
 class ShopSettings extends DataObjectDecorator {
   
+	public function SearchClassSelector() {
+	    return "dropdown";
+	}
+
   /**
    * To hold the license key for SwipeStripe. Usually set in mysite/_config file.
    * 
